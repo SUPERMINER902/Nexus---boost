@@ -1,0 +1,93 @@
+@echo off
+setlocal enabledelayedexpansion
+title Nexus - Boost
+
+set "APP_NAME=Nexus - Boost"
+set "APP_VERSION=1,2"
+set "APP_AUTHOR=Powered by Nexus"
+
+:main
+cls
+echo.
+echo ======================================================================
+echo   %APP_NAME% - We recommend running this program as administrator.
+echo   Version %APP_VERSION%
+echo ======================================================================
+echo.
+echo Welcome to Nexus - Boost, a lightweight performance booster shell.
+echo Use the options below to launch optimization tools and view system info.
+echo by: S3RENO
+echo.
+echo  1. Start Boost
+echo  2. Performance Info
+echo  3. Help
+echo  4. Exit
+echo.
+choice /c 1234 /n /m "Select an option: "
+if errorlevel 4 goto exit
+if errorlevel 3 goto help
+if errorlevel 2 goto info
+if errorlevel 1 goto boost
+
+
+:boost
+cls
+echo Starting Nexus boost...
+echo.
+echo Applying performance tweaks...
+echo loading 
+%windir%\system32\rundll32.exe advapi32.dll,ProcessIdleTasks
+echo checking disk error...
+chkdsk C: /f
+echo optimizing system..
+del /q /f /s "%TEMP%\*.*" 2>nul
+del /q /f /s "%LOCALAPPDATA%\Temp\*.*" 2>nul
+del /q /f /s "C:\Windows\Temp\*.*" 2>nul
+rd /s /q "C:\Windows\SoftwareDistribution\Download" 2>nul
+md "C:\Windows\SoftwareDistribution\Download"
+echo checking ram
+%windir%\system32\rundll32.exe advapi32.dll,ProcessIdleTasks
+echo ram status: good
+echo.
+pause
+goto main
+
+
+:info
+cls
+echo Nexus - Boost Performance Info
+echo.
+systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type" >nul 2>&1
+if not errorlevel 1 (
+    systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"
+) else (
+    echo Unable to retrieve detailed system info.
+)
+echo.
+ver
+echo.
+echo You can extend this section with CPU, memory, and disk checks.
+echo.
+pause
+goto main
+
+
+:help
+cls
+echo Nexus - Boost Help
+echo.
+echo 1 - Start Boost: Run the Nexus optimization routine.
+echo 2 - Performance Info: Show basic system and version details.
+echo 3 - Help: Display this help page.
+echo 4 - Exit: Close Nexus - Boost.
+echo.
+echo.
+pause
+goto main
+
+
+:exit
+cls
+echo Exiting Nexus - Boost. Goodbye!
+endlocal
+exit /b 5
